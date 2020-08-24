@@ -42,5 +42,7 @@ namespace TrashCollection.Data
         }
 
         public DbSet<TrashCollection.Models.Employee> Employee { get; set; }
+
+        public DbSet<TrashCollection.Models.Customer> Customer { get; set; }
     }
 }
