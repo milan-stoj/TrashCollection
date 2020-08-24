@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrashCollection.Data;
+using TrashCollection.Models;
 
 namespace TrashCollection.Controllers
 {

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrashCollection.Data;
+using TrashCollection.Models;
 
 namespace TrashCollection.Controllers
 {
@@ -24,7 +26,11 @@ namespace TrashCollection.Controllers
         // GET: CustomerController
         public ActionResult Index()
         {
-            return View();
+            if (db.Customer.Count() == 0)
+            {
+                return RedirectToAction(nameof(Create));
+            }
+            return View(db.Customer.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         // GET: CustomerController/Details/5
@@ -36,7 +42,8 @@ namespace TrashCollection.Controllers
         // GET: CustomerController/Create
         public ActionResult Create()
         {
-            return View();
+            Customer customer = new Customer();
+            return View(customer);
         }
 
         // POST: CustomerController/Create
