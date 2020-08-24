@@ -30,7 +30,7 @@ namespace TrashCollection.Controllers
             {
                 return RedirectToAction(nameof(Create));
             }
-            return View(db.Customer.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return View(db.Customer.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault());
         }
 
         // GET: CustomerController/Details/5
@@ -49,10 +49,13 @@ namespace TrashCollection.Controllers
         // POST: CustomerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Customer customer)
         {
             try
             {
+                customer.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                db.Customer.Add(customer);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
