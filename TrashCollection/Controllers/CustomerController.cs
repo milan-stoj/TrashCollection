@@ -2,13 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TrashCollection.Data;
 
 namespace TrashCollection.Controllers
 {
+    [Authorize(Roles = "Customer")]
+
     public class CustomerController : Controller
     {
+        public ApplicationDbContext db;
+
+        public CustomerController(DbContextOptions<ApplicationDbContext> options)
+        {
+            db = new ApplicationDbContext(options);
+        }
+
         // GET: CustomerController
         public ActionResult Index()
         {

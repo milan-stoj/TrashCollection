@@ -2,13 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TrashCollection.Data;
 
 namespace TrashCollection.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeeController : Controller
     {
+        public ApplicationDbContext db;
+
+        public EmployeeController(DbContextOptions<ApplicationDbContext> options)
+        {
+            db = new ApplicationDbContext(options);
+        }
+
         // GET: EmployeeController
         public ActionResult Index()
         {
