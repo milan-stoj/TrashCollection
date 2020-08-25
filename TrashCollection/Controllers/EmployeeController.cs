@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +26,24 @@ namespace TrashCollection.Controllers
         // GET: EmployeeController
         public ActionResult Index()
         {
-            return View();
+            var employee = db.Employee.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))?.SingleOrDefault();
+            if (employee == null)
+            {
+                return RedirectToAction(nameof(Create));
+            }
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Employee = db.Employee.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))?.SingleOrDefault();
+            mymodel.Pickups = GetPickups();
+            return View(mymodel);
+        }
+
+        public List<Customer> GetPickups()
+        {
+            DateTime today = new DateTime();
+            today = DateTime.Today;
+            List<Customer> customers = new List<Customer>();
+            customers = db.Customer.Where(c => c.PickupDay == today.DayOfWeek).ToList();
+            return customers;
         }
 
         // GET: EmployeeController/Details/5
@@ -36,16 +55,20 @@ namespace TrashCollection.Controllers
         // GET: EmployeeController/Create
         public ActionResult Create()
         {
-            return View();
+            Employee employee = new Employee();
+            return View(employee);
         }
 
         // POST: EmployeeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Employee employee)
         {
             try
             {
+                employee.IdentityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                db.Employee.Add(employee);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch

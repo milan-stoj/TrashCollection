@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrashCollection.Migrations
 {
-    public partial class init : Migration
+    public partial class New : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -207,12 +207,12 @@ namespace TrashCollection.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6a2ad05c-2129-413c-830b-87f1deaf4df3", "559091a4-9ee8-4d4f-9981-a0000c2781ac", "Customer", "CUSTOMER" });
+                values: new object[] { "23837363-5913-4808-bc13-09dc46ef8d74", "f9095e9a-0c8e-45c9-87fb-3c6bd613cb40", "Customer", "CUSTOMER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6efe46a5-631f-4c6b-bc58-6c00126eee5e", "90e3164f-b0a4-46c5-88fe-37e51d4452fb", "Employee", "EMPLOYEE" });
+                values: new object[] { "52f24a0e-a96f-49b2-a9e4-418c4be20dcd", "e68939c0-b01b-45e3-8d9d-b9cc60e635a8", "Employee", "EMPLOYEE" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

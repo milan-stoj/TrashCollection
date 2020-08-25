@@ -15,8 +15,6 @@ namespace TrashCollection.Models
         public string Name { get; set; }
         public string ServiceZip { get; set; }
 
-
-
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }

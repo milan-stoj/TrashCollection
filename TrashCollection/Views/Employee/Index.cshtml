@@ -1,74 +1,98 @@
-﻿@model TrashCollection.Models.Employee
+﻿@using TrashCollection
+@model dynamic
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
+    Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
 
-<h1>Employee Menu</h1>
 
-<style>
-    #map {
-        height: 100%;
-    }
+<style type="text/css">
+            /* Always set the map height explicitly to define the size of the div
+    * element that contains the map. */
+            #map {
+                height: 100%;
+                width: auto;
+            }
 
-    /* Optional: Makes the sample page fill the window. */
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+            /* Optional: Makes the sample page fill the window. */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #floating-panel {
+                position: absolute;
+                top: 10px;
+                left: 25%;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+                text-align: center;
+                font-family: "Roboto", "sans-serif";
+                line-height: 30px;
+                padding-left: 10px;
+            }
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Customer Information</h5>
-                </div>
-                <div class="card-body">
-                    <dl class="col-sm">
-                        <dt class="col-sm-10">
-                            @Html.DisplayNameFor(model => model.Name)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Name)
-                        </dd>
-                        <dt class="col-sm-10">
-                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit Information</a>
-                            <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model.Id">Stop Service</a>
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.Id">Pay Balance</a>
-                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Request One Time Pickup</a>
-                        </dt>
-                    </dl>
+
+<h1>Employee Menu</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Pickups for Today @DateTime.Today.ToString("D")</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Address
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Customer customer in Model.Pickups)
+                                {
+                                    <tr>
+                                        <td>@customer.Name</td>
+                                        <td>@customer.Address</td>
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@customer.Id">Details</a> |
+                                            <a asp-action="Complete" asp-route-id="@customer.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Customer Information</h5>
-                </div>
-                <div class="card-body">
-                    <dl class="col-sm">
-                        <dt class="col-sm-10">
-                            @Html.DisplayNameFor(model => model.Name)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Name)
-                        </dd>
-                        <dt class="col">
-                            <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model.Id">Stop Service</a>
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.Id">Pay Balance</a>
-                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Request Pickup</a>
-                        </dt>
-                    </dl>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Customer Information</h5>
+                    </div>
+                    <div class="card-body" onload="initMap()">
+                        <body onload="initialize()">
+                            <div id="map" style="width: auto; height: 500px;"></div>
+                            <div>
+                            </div>
+                        </body>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
