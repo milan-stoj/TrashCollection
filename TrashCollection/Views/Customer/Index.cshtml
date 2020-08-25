@@ -77,7 +77,13 @@
                     <h5>Actions</h5>
                 </div>
                 <div class="card-body">
-                    @if (Model.SuspendStart.Value.CompareTo(DateTime.Now) <= 0 && Model.SuspendEnd.Value.CompareTo(DateTime.Now) >= 0)
+                    <div class="alert alert-secondary">
+                        Current balance is @Model.MonthBalance
+                    </div>
+                    <div class="my-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payBalance">Pay Balance</button>
+                    </div>
+                    @if (Model.ServiceSuspended == true)
                     {
                         <div class="alert alert-danger">
                             Service is suspended until @Model.SuspendEnd.Value.ToString("D")!
@@ -85,30 +91,23 @@
                     }
                     else
                     {
-                <div class="alert alert-success">
-                    Next pickup day is @DateTime.Today.AddDays(((int)Model.PickupDay - (int)DateTime.Today.DayOfWeek + 7) % 7).ToString("D")
-                </div>
+                        <div class="alert alert-success">
+                            Next pickup day is @DateTime.Today.AddDays(((int)Model.PickupDay - (int)DateTime.Today.DayOfWeek + 7) % 7).ToString("D")
+                        </div>
                     }
-                    <dl class="col-lg-auto">
-                        <dd class="col-sm-10">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#suspendService">Suspend Service</button>
-                        </dd>
-                        <dd class="col-sm-10">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payBalance">Pay Balance</button>
-                        </dd>
-                        <dd class="col-md-12">
-                            @if (Model.PendingOneTimePickup == false)
-                            {
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#oneTimePickup">Request One Time Pickup</button>
-                            }
-                            else
-                            {
-                        <div class="alert alert-warning">
+
+                    <div class="my-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#suspendService">Suspend Service</button>
+                    </div>
+                    @if (Model.PendingOneTimePickup == true)
+                    {
+                        <div class="my-3 alert alert-warning">
                             One time pickup scheduled for @Model.OneTimePickup.Value.ToString("D")
                         </div>
-                            }
-                        </dd>
-                    </dl>
+                    }
+                    <div class="my-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#oneTimePickup">One Time Pickup</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -48,15 +48,15 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4bfeb476-0cea-4df9-95f7-3626b3a1e20a",
-                            ConcurrencyStamp = "a4c9037b-96ce-47f9-8134-7b5f8c49c3fa",
+                            Id = "6a2ad05c-2129-413c-830b-87f1deaf4df3",
+                            ConcurrencyStamp = "559091a4-9ee8-4d4f-9981-a0000c2781ac",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "34823af4-9749-43b4-99d3-8c1690b41bb0",
-                            ConcurrencyStamp = "c3eaa57f-d3a0-434b-bd8e-1f89a722ed36",
+                            Id = "6efe46a5-631f-4c6b-bc58-6c00126eee5e",
+                            ConcurrencyStamp = "90e3164f-b0a4-46c5-88fe-37e51d4452fb",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -264,6 +264,9 @@ namespace TrashCollection.Migrations
 
                     b.Property<int>("PickupDay")
                         .HasColumnType("int");
+
+                    b.Property<bool>("ServiceSuspended")
+                        .HasColumnType("bit");
 
                     b.Property<string>("State")
                         .IsRequired()

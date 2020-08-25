@@ -38,7 +38,9 @@ namespace TrashCollection.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? OneTimePickup { get; set; }
+        public bool PendingOneTimePickup { get; set; }
         
+        [DataType(DataType.Currency)]
         public double MonthBalance { get; set; }
 
         [Display(Name = "Suspend Start")]
@@ -51,7 +53,7 @@ namespace TrashCollection.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? SuspendEnd { get; set; }
 
-        public bool PendingOneTimePickup { get; set; }
+        public bool ServiceSuspended { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

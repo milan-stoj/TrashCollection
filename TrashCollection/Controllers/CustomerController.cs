@@ -100,6 +100,7 @@ namespace TrashCollection.Controllers
                 Customer customer = db.Customer.Where(c => c.Id == id).FirstOrDefault();
                 customer.SuspendStart = DateTime.Parse(collection["SuspendStart"]);
                 customer.SuspendEnd = DateTime.Parse(collection["SuspendEnd"]);
+                customer.ServiceSuspended = true;
                 db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -118,6 +119,7 @@ namespace TrashCollection.Controllers
                 Customer customer = db.Customer.Where(c => c.Id == id).FirstOrDefault();
                 customer.SuspendStart = DateTime.Today;
                 customer.SuspendEnd = DateTime.Today;
+                customer.ServiceSuspended = false;
                 db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
