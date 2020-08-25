@@ -34,7 +34,7 @@ namespace TrashCollection.ActionFilters
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
-
+            
         }
     }
 }

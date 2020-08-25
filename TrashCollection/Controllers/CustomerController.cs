@@ -77,6 +77,14 @@ namespace TrashCollection.Controllers
         {
             try
             {
+                Customer customer = db.Customer.Where(c => c.Id == id).FirstOrDefault();
+                customer.Name = collection["Name"];
+                customer.Address = collection["Address"];
+                customer.City = collection["City"];
+                customer.State = collection["State"];
+                customer.ZipCode = collection["ZipCode"];
+                customer.PickupDay = collection["PickupDay"];
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
