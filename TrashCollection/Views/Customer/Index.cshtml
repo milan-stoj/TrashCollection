@@ -77,15 +77,36 @@
                     <h5>Actions</h5>
                 </div>
                 <div class="card-body">
+                    @if (Model.SuspendStart.Value.CompareTo(DateTime.Now) <= 0 && Model.SuspendEnd.Value.CompareTo(DateTime.Now) >= 0)
+                    {
+                        <div class="alert alert-danger">
+                            Service is suspended until @Model.SuspendEnd.Value.ToString("D")!
+                        </div>
+                    }
+                    else
+                    {
+                <div class="alert alert-success">
+                    Next pickup day is @DateTime.Today.AddDays(((int)Model.PickupDay - (int)DateTime.Today.DayOfWeek + 7) % 7).ToString("D")
+                </div>
+                    }
                     <dl class="col-lg-auto">
                         <dd class="col-sm-10">
-                            <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model.Id">Stop Service</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#suspendService">Suspend Service</button>
                         </dd>
                         <dd class="col-sm-10">
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.Id">Pay Balance</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payBalance">Pay Balance</button>
                         </dd>
-                        <dd class="col-sm-10">
-                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Request One Time Pickup</a>
+                        <dd class="col-md-12">
+                            @if (Model.PendingOneTimePickup == false)
+                            {
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#oneTimePickup">Request One Time Pickup</button>
+                            }
+                            else
+                            {
+                        <div class="alert alert-warning">
+                            One time pickup scheduled for @Model.OneTimePickup.Value.ToString("D")
+                        </div>
+                            }
                         </dd>
                     </dl>
                 </div>
@@ -107,7 +128,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form asp-action="Edit">
+                        <form asp-action="EditCustomerDetails">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Id" />
                             <div class="form-group">
@@ -151,7 +172,6 @@
                             <div class="form-group">
                                 <input type="submit" value="Save" class="btn btn-primary" />
                             </div>
-                            
                         </form>
                     </div>
                 </div>
@@ -159,4 +179,76 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="suspendService" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="EditSuspension">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <label asp-for="SuspendStart" class="control-label"></label>
+                                <input asp-for="SuspendStart" class="form-control" />
+                                <span asp-validation-for="SuspendStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SuspendEnd" class="control-label"></label>
+                                <input asp-for="SuspendEnd" class="form-control" />
+                                <span asp-validation-for="SuspendEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                        <form asp-action="ClearSuspension">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="submit" value="Clear Suspension" class="btn btn-primary" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="oneTimePickup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="EditOneTimePickup">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <label asp-for="OneTimePickup" class="control-label"></label>
+                                <input asp-for="OneTimePickup" class="form-control" />
+                                <span asp-validation-for="OneTimePickup" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

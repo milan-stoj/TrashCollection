@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,11 +27,12 @@ namespace TrashCollection.Controllers
         // GET: CustomerController
         public ActionResult Index()
         {
-            if (db.Customer.Count() == 0)
+            var customer = db.Customer.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))?.SingleOrDefault();
+            if (customer == null)
             {
                 return RedirectToAction(nameof(Create));
             }
-            return View(db.Customer.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault());
+            return View(customer);
         }
 
         // GET: CustomerController/Details/5
@@ -65,15 +67,11 @@ namespace TrashCollection.Controllers
         }
 
         // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
         // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditCustomerDetails(int id, IFormCollection collection)
         {
             try
             {
@@ -83,7 +81,61 @@ namespace TrashCollection.Controllers
                 customer.City = collection["City"];
                 customer.State = collection["State"];
                 customer.ZipCode = collection["ZipCode"];
-                customer.PickupDay = collection["PickupDay"];
+                customer.PickupDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), collection["PickupDay"]);
+                db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditSuspension(int id, IFormCollection collection)
+        {
+            try
+            {
+                Customer customer = db.Customer.Where(c => c.Id == id).FirstOrDefault();
+                customer.SuspendStart = DateTime.Parse(collection["SuspendStart"]);
+                customer.SuspendEnd = DateTime.Parse(collection["SuspendEnd"]);
+                db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ClearSuspension(int id)
+        {
+            try
+            {
+                Customer customer = db.Customer.Where(c => c.Id == id).FirstOrDefault();
+                customer.SuspendStart = DateTime.Today;
+                customer.SuspendEnd = DateTime.Today;
+                db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOneTimePickup(int id, IFormCollection collection)
+        {
+            try
+            {
+                Customer customer = db.Customer.Where(c => c.Id == id).FirstOrDefault();
+                customer.OneTimePickup = DateTime.Parse(collection["OneTimePickup"]);
+                customer.PendingOneTimePickup = true;
                 db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }

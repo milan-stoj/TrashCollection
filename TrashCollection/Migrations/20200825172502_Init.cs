@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrashCollection.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -158,16 +158,16 @@ namespace TrashCollection.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    State = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true),
-                    PickupDay = table.Column<string>(nullable: true),
-                    OneTimePickup = table.Column<string>(nullable: true),
-                    MonthBalance = table.Column<int>(nullable: false),
-                    SuspendStart = table.Column<string>(nullable: true),
-                    SuspendEnd = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: false),
+                    City = table.Column<string>(nullable: false),
+                    State = table.Column<string>(nullable: false),
+                    ZipCode = table.Column<string>(maxLength: 5, nullable: false),
+                    PickupDay = table.Column<int>(nullable: false),
+                    OneTimePickup = table.Column<DateTime>(nullable: false),
+                    MonthBalance = table.Column<double>(nullable: false),
+                    SuspendStart = table.Column<DateTime>(nullable: false),
+                    SuspendEnd = table.Column<DateTime>(nullable: false),
                     IdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -205,12 +205,12 @@ namespace TrashCollection.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2679fcc5-c711-475f-9299-bccff258b37e", "08dbebcf-c9f3-423b-80ea-d3d2da13a21f", "Customer", "CUSTOMER" });
+                values: new object[] { "a4f32d49-4a05-4fb1-90f0-a01e31eebc5d", "22b8c93b-4432-40e6-a0aa-3c03e9ca98c9", "Customer", "CUSTOMER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bdd9531b-7014-4b59-b5bc-db6d7d1bf16f", "671c5a2a-09fd-4401-b76c-9b407f3705c5", "Employee", "EMPLOYEE" });
+                values: new object[] { "6accb960-0ded-49b1-af86-4ca3e188a68d", "1f7bfabf-6b35-4c23-83a3-05da8e430320", "Employee", "EMPLOYEE" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

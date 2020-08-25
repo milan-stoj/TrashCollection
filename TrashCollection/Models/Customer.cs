@@ -32,15 +32,26 @@ namespace TrashCollection.Models
         
 
         [Display(Name = "Pickup Day")]
-        public string PickupDay { get; set; }
-        
-        public string OneTimePickup { get; set; }
+        public DayOfWeek PickupDay { get; set; }
+
+        [Display(Name = "One Time Pickup")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? OneTimePickup { get; set; }
         
         public double MonthBalance { get; set; }
-        
-        public string SuspendStart { get; set; }
-        
-        public string SuspendEnd { get; set; }
+
+        [Display(Name = "Suspend Start")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? SuspendStart { get; set; }
+
+        [Display(Name = "Suspend End")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? SuspendEnd { get; set; }
+
+        public bool PendingOneTimePickup { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

@@ -48,15 +48,15 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ed9b56ed-4ac4-43ab-9fb7-086dcc21b43b",
-                            ConcurrencyStamp = "54df7304-3b1b-441f-8404-ed762523e4e2",
+                            Id = "4bfeb476-0cea-4df9-95f7-3626b3a1e20a",
+                            ConcurrencyStamp = "a4c9037b-96ce-47f9-8134-7b5f8c49c3fa",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "7bad786a-407e-4a90-ae3d-64ade2740978",
-                            ConcurrencyStamp = "a4807f87-5e16-4bda-954f-1b6368cd7cbf",
+                            Id = "34823af4-9749-43b4-99d3-8c1690b41bb0",
+                            ConcurrencyStamp = "c3eaa57f-d3a0-434b-bd8e-1f89a722ed36",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -256,21 +256,24 @@ namespace TrashCollection.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OneTimePickup")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("OneTimePickup")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("PickupDay")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("PendingOneTimePickup")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PickupDay")
+                        .HasColumnType("int");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SuspendEnd")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("SuspendEnd")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("SuspendStart")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("SuspendStart")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()

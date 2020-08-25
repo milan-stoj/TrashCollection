@@ -10,8 +10,8 @@ using TrashCollection.Data;
 namespace TrashCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200824221015_InitMigration")]
-    partial class InitMigration
+    [Migration("20200825184743_BoolPickup")]
+    partial class BoolPickup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2679fcc5-c711-475f-9299-bccff258b37e",
-                            ConcurrencyStamp = "08dbebcf-c9f3-423b-80ea-d3d2da13a21f",
+                            Id = "4bfeb476-0cea-4df9-95f7-3626b3a1e20a",
+                            ConcurrencyStamp = "a4c9037b-96ce-47f9-8134-7b5f8c49c3fa",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "bdd9531b-7014-4b59-b5bc-db6d7d1bf16f",
-                            ConcurrencyStamp = "671c5a2a-09fd-4401-b76c-9b407f3705c5",
+                            Id = "34823af4-9749-43b4-99d3-8c1690b41bb0",
+                            ConcurrencyStamp = "c3eaa57f-d3a0-434b-bd8e-1f89a722ed36",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -241,37 +241,46 @@ namespace TrashCollection.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("MonthBalance")
-                        .HasColumnType("int");
+                    b.Property<double>("MonthBalance")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OneTimePickup")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("OneTimePickup")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("PickupDay")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("PendingOneTimePickup")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PickupDay")
+                        .HasColumnType("int");
 
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SuspendEnd")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("SuspendEnd")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("SuspendStart")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("SuspendStart")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(5)")
+                        .HasMaxLength(5);
 
                     b.HasKey("Id");
 
