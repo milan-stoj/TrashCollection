@@ -2,6 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+var userObj = @Model.
+
 function initMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 8,

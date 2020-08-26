@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -32,12 +33,14 @@ namespace TrashCollection.Controllers
                 return RedirectToAction(nameof(Create));
             }
             dynamic mymodel = new ExpandoObject();
-            mymodel.Employee = db.Employee.Where(c => c.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))?.SingleOrDefault();
-            mymodel.Pickups = GetPickups();
+            mymodel.Employee = employee;
+            mymodel.Pickups = GetPickups(employee.DayOfWeek);
+            mymodel.PickupAddresses = GetPickups().Select(l => l.Address + ", " + l.City + ", " + l.ZipCode).ToList();
+            mymodel.Customers = db.Customer.ToList();
             return View(mymodel);
         }
 
-        public List<Customer> GetPickups()
+        public List<Customer> GetPickups(DayOfWeek weekDay)
         {
             DateTime today = new DateTime();
             today = DateTime.Today;
