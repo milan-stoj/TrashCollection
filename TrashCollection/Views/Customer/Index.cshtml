@@ -86,7 +86,7 @@
                     @if (Model.ServiceSuspended == true)
                     {
                         <div class="alert alert-danger">
-                            Service is suspended until @Model.SuspendEnd.Value.ToString("D")!
+                            Service is suspended until @Model.SuspendEnd.ToString("D")!
                         </div>
                     }
                     else
@@ -102,7 +102,7 @@
                     @if (Model.PendingOneTimePickup == true)
                     {
                         <div class="my-3 alert alert-warning">
-                            One time pickup scheduled for @Model.OneTimePickup.Value.ToString("D")
+                            One time pickup scheduled for @Model.OneTimePickup.ToString("D")
                         </div>
                     }
                     <div class="my-3">

@@ -37,7 +37,7 @@ namespace TrashCollection.Models
         [Display(Name = "One Time Pickup")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? OneTimePickup { get; set; }
+        public DateTime OneTimePickup { get; set; }
         public bool PendingOneTimePickup { get; set; }
         
         [DataType(DataType.Currency)]
@@ -51,12 +51,12 @@ namespace TrashCollection.Models
         [Display(Name = "Suspend Start")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? SuspendStart { get; set; }
+        public DateTime SuspendStart { get; set; }
 
         [Display(Name = "Suspend End")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? SuspendEnd { get; set; }
+        public DateTime SuspendEnd { get; set; }
 
         public bool ServiceSuspended { get; set; }
 

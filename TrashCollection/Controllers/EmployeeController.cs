@@ -54,7 +54,8 @@ namespace TrashCollection.Controllers
             int valu = customer.LastPickup.AddDays(7).CompareTo(today);
             List<Customer> customers = new List<Customer>();
             customers = db.Customer.Where(c => (c.ZipCode == employee.ServiceZip) && 
-            (c.PickupDay == today.DayOfWeek && c.LastPickup.AddDays(7).CompareTo(today) <= 0 || (c.OneTimePickup == today && c.PendingOneTimePickup == true))).ToList();
+            (c.PickupDay == today.DayOfWeek && c.LastPickup.AddDays(7).CompareTo(today) <= 0 || (c.OneTimePickup == today && c.PendingOneTimePickup == true)) &&
+            (c.SuspendEnd <= today && c.SuspendStart <= today && c.ServiceSuspended == false)).ToList();
             return customers;
         }
 
