@@ -129,13 +129,16 @@ function geocodeAddress(geocoder, resultsMap) {
                                         </td>
                                     </tr>
                                 }
-                                <tr>
-                                    <td>@customer.Name</td>
-                                    <td>@customer.Address</td>
-                                    <td>
-                                        <a asp-action="Complete" asp-route-idCust="@customer.Id" asp-route-idEmp="@Model.Employee.Id">Complete Pickup</a>
-                                    </td>
-                                </tr>
+                                if (customer.PickupDay == DateTime.Today.DayOfWeek)
+                                {
+                                    <tr>
+                                        <td>@customer.Name</td>
+                                        <td>@customer.Address</td>
+                                        <td>
+                                            <a asp-action="Complete" asp-route-idCust="@customer.Id" asp-route-idEmp="@Model.Employee.Id">Complete Pickup</a>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
