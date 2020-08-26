@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "AllCustomers";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
 
 <h1>All Customers</h1>
@@ -29,9 +29,6 @@
                 @Html.DisplayNameFor(model => model.PickupDay)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OneTimePickup)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.PendingOneTimePickup)
             </th>
             <th>
@@ -44,7 +41,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
@@ -62,15 +59,10 @@
                 @Html.DisplayFor(modelItem => item.PickupDay)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OneTimePickup)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PendingOneTimePickup)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.MonthBalance)
             </td>
         </tr>
 }

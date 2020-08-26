@@ -48,20 +48,20 @@ namespace TrashCollection.Controllers
 
         public List<Customer> GetPickups(Employee employee)
         {
-            
             DateTime today = new DateTime();
             today = DateTime.Today;
             Customer customer = db.Customer.Where(c => c.Id == 1).FirstOrDefault();
             int valu = customer.LastPickup.AddDays(7).CompareTo(today);
             List<Customer> customers = new List<Customer>();
-            customers = db.Customer.Where(c => (c.PickupDay == today.DayOfWeek || c.OneTimePickup == today) && (c.ZipCode == employee.ServiceZip) && (c.LastPickup.AddDays(7).CompareTo(today) <= 0)).ToList();
+            customers = db.Customer.Where(c => (c.ZipCode == employee.ServiceZip) && 
+            (c.PickupDay == today.DayOfWeek && c.LastPickup.AddDays(7).CompareTo(today) <= 0 || (c.OneTimePickup == today && c.PendingOneTimePickup == true))).ToList();
             return customers;
         }
 
         // GET: EmployeeController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(db.Customer.Where(c => c.Id == id).FirstOrDefault());
         }
 
         public ActionResult Complete(int idCust, int idEmp)
@@ -71,6 +71,22 @@ namespace TrashCollection.Controllers
                 Customer customer = db.Customer.Where(c => c.Id == idCust).FirstOrDefault();
                 customer.MonthBalance += 5;
                 customer.LastPickup = DateTime.Today;
+                db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult CompleteOneTime(int idCust, int idEmp)
+        {
+            try
+            {
+                Customer customer = db.Customer.Where(c => c.Id == idCust).FirstOrDefault();
+                customer.MonthBalance += 5;
+                customer.PendingOneTimePickup = false;
                 db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }

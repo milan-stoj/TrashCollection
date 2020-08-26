@@ -6,60 +6,59 @@
     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
 
-    <script>
-
-    function initMap() {
-        var addressArray = @Json.Serialize(Model.PickupAddresses);
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 15,
-            center: { lat: -34.397, lng: 150.644 }
-        });
-        const geocoder = new google.maps.Geocoder();
-        for (var i = 0; i < addressArray.length; i++)
+<script>
+function initMap() {
+    var addressArray = @Json.Serialize(Model.PickupAddresses);
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: { lat: -34.397, lng: 150.644 }
+    });
+    const geocoder = new google.maps.Geocoder();
+    for (var i = 0; i < addressArray.length; i++)
+    {
+        var address = addressArray[i];
+        geocoder.geocode({'address': address}, function (results, status)
         {
-            var address = addressArray[i];
-            geocoder.geocode({'address': address}, function (results, status)
-            {
-                    if (status === 'OK')
-                    {
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: results[0].geometry.location,
-                        center: {
-                            lat: 12.7826,
-                            lng: 105.0282
-                        },
-                    });
-                        var latLng = marker.getPosition();
-                        map.setCenter(latLng);
-                }
-                else
+                if (status === 'OK')
                 {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-
-            });
-        }
-        document.getElementById("submit").addEventListener("click", () => {
-            geocodeAddress(geocoder, map);
-        });
-    }
-
-    function geocodeAddress(geocoder, resultsMap) {
-        const address = document.getElementById("address").value;
-        geocoder.geocode({ address: address }, (results, status) => {
-            if (status === "OK") {
-                resultsMap.setCenter(results[0].geometry.location);
-                new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    center: {
+                        lat: 12.7826,
+                        lng: 105.0282
+                    },
                 });
-            } else {
-                alert("Geocode was not successful for the following reason: " + status);
+                    var latLng = marker.getPosition();
+                    map.setCenter(latLng);
             }
+            else
+            {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+
         });
     }
-    </script>
+    document.getElementById("submit").addEventListener("click", () => {
+        geocodeAddress(geocoder, map);
+    });
+}
+
+function geocodeAddress(geocoder, resultsMap) {
+    const address = document.getElementById("address").value;
+    geocoder.geocode({ address: address }, (results, status) => {
+        if (status === "OK") {
+            resultsMap.setCenter(results[0].geometry.location);
+            new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+            });
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    });
+}
+</script>
 
 
 <style type="text/css">
@@ -120,6 +119,16 @@
                         <tbody>
                             @foreach (Customer customer in Model.Pickups)
                             {
+                                if (customer.PendingOneTimePickup == true && customer.OneTimePickup == DateTime.Today)
+                                {
+                                    <tr>
+                                        <td>@customer.Name</td>
+                                        <td>@customer.Address</td>
+                                        <td>
+                                            <a asp-action="CompleteOneTime" asp-route-idCust="@customer.Id" asp-route-idEmp="@Model.Employee.Id">Complete One-Time Pickup</a>
+                                        </td>
+                                    </tr>
+                                }
                                 <tr>
                                     <td>@customer.Name</td>
                                     <td>@customer.Address</td>
