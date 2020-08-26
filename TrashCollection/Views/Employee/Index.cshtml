@@ -124,8 +124,7 @@
                                     <td>@customer.Name</td>
                                     <td>@customer.Address</td>
                                     <td>
-                                        <a asp-action="Details" asp-route-id="@customer.Id">Details</a> |
-                                        <a asp-action="Complete" asp-route-id="@customer.Id">Delete</a>
+                                        <a asp-action="Complete" asp-route-idCust="@customer.Id" asp-route-idEmp="@Model.Employee.Id">Complete Pickup</a>
                                     </td>
                                 </tr>
                             }
@@ -151,43 +150,5 @@
     </div>
     <div class=" row">
 
-    </div>
-</div>
-
-<div class="my-3 container">
-    <div class="card">
-        <div class="card-header">
-            <h5>All Customers @DateTime.Today.ToString("D")</h5>
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Address
-                        </th>
-                        <th>
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Customer customer in Model.Customers)
-                    {
-                        <tr>
-                            <td>@customer.Name</td>
-                            <td>@customer.Address</td>
-                            <td>
-                                <a asp-action="Details" asp-route-id="@customer.Id">Details</a> |
-                                <a asp-action="Complete" asp-route-id="@customer.Id">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>

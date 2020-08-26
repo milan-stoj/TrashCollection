@@ -34,18 +34,27 @@ namespace TrashCollection.Controllers
             }
             dynamic mymodel = new ExpandoObject();
             mymodel.Employee = employee;
-            mymodel.Pickups = GetPickups(employee.DayOfWeek);
-            mymodel.PickupAddresses = GetPickups().Select(l => l.Address + ", " + l.City + ", " + l.ZipCode).ToList();
+            mymodel.Pickups = GetPickups(employee);
+            mymodel.PickupAddresses = GetPickups(employee).Select(l => l.Address + ", " + l.City + ", " + l.ZipCode).ToList();
             mymodel.Customers = db.Customer.ToList();
             return View(mymodel);
         }
 
-        public List<Customer> GetPickups(DayOfWeek weekDay)
+        public ActionResult AllCustomers()
         {
+            List<Customer> customers = db.Customer.ToList();
+            return View(customers);
+        }
+
+        public List<Customer> GetPickups(Employee employee)
+        {
+            
             DateTime today = new DateTime();
             today = DateTime.Today;
+            Customer customer = db.Customer.Where(c => c.Id == 1).FirstOrDefault();
+            int valu = customer.LastPickup.AddDays(7).CompareTo(today);
             List<Customer> customers = new List<Customer>();
-            customers = db.Customer.Where(c => c.PickupDay == today.DayOfWeek).ToList();
+            customers = db.Customer.Where(c => (c.PickupDay == today.DayOfWeek || c.OneTimePickup == today) && (c.ZipCode == employee.ServiceZip) && (c.LastPickup.AddDays(7).CompareTo(today) <= 0)).ToList();
             return customers;
         }
 
@@ -53,6 +62,22 @@ namespace TrashCollection.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        public ActionResult Complete(int idCust, int idEmp)
+        {
+            try
+            {
+                Customer customer = db.Customer.Where(c => c.Id == idCust).FirstOrDefault();
+                customer.MonthBalance += 5;
+                customer.LastPickup = DateTime.Today;
+                db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: EmployeeController/Create
@@ -111,6 +136,20 @@ namespace TrashCollection.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Complete(int id, IFormCollection collection)
         {
             try
             {

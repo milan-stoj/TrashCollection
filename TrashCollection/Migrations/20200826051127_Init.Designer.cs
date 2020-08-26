@@ -10,8 +10,8 @@ using TrashCollection.Data;
 namespace TrashCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200825204616_New")]
-    partial class New
+    [Migration("20200826051127_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace TrashCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "23837363-5913-4808-bc13-09dc46ef8d74",
-                            ConcurrencyStamp = "f9095e9a-0c8e-45c9-87fb-3c6bd613cb40",
+                            Id = "538c71c7-77d1-42f3-9b77-f4aa9c5b669e",
+                            ConcurrencyStamp = "16d74a20-e17a-4c82-9da5-5526f9c79ada",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "52f24a0e-a96f-49b2-a9e4-418c4be20dcd",
-                            ConcurrencyStamp = "e68939c0-b01b-45e3-8d9d-b9cc60e635a8",
+                            Id = "657ce1c4-cf61-4213-aa04-2dc23ddc71f8",
+                            ConcurrencyStamp = "82f5ee9e-0a36-4ea0-b2ba-e17ae23f6764",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -250,6 +250,9 @@ namespace TrashCollection.Migrations
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("LastPickup")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("MonthBalance")
                         .HasColumnType("float");

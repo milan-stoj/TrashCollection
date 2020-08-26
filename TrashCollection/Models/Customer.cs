@@ -43,6 +43,11 @@ namespace TrashCollection.Models
         [DataType(DataType.Currency)]
         public double MonthBalance { get; set; }
 
+        [Display(Name = "Last Pickup Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime LastPickup { get; set; }
+
         [Display(Name = "Suspend Start")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
